@@ -9,9 +9,9 @@ package com.hx.latte.app.net;
 public enum HttpMethod {
     GET,
     POST,
-    GET_RAW,
     POST_RAW,
     PUT,
+    PUT_RAW,
     DELETE,
     UPLOAD
 }

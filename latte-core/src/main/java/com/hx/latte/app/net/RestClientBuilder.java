@@ -1,15 +1,17 @@
 package com.hx.latte.app.net;
 
+import android.content.Context;
+
 import com.hx.latte.app.net.callback.IError;
 import com.hx.latte.app.net.callback.IFailure;
 import com.hx.latte.app.net.callback.IRequest;
 import com.hx.latte.app.net.callback.ISuccess;
+import com.hx.latte.app.ui.LoaderStyles;
 
-import java.util.Map;
+import java.io.File;
 import java.util.WeakHashMap;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
@@ -19,15 +21,16 @@ import okhttp3.RequestBody;
  */
 
 public class RestClientBuilder {
-    private  String mUrl;//请求地址
+    private  String mUrl=null;//请求地址
     private static final WeakHashMap<String,Object> PARAMS=RestCreator.getParams();//请求参数
-    private  IRequest mIRequest;//请求
-    private  ISuccess mISuccess;//请求成功
-    private  IError mIError;//请求出错
-    private  IFailure mIFailure;//请求失败
-    private  RequestBody mBody;//okHttp请求体
-    private MultipartBody.Part mPart;
-
+    private  IRequest mIRequest=null;//请求
+    private  ISuccess mISuccess=null;//请求成功
+    private  IError mIError=null;//请求出错
+    private  IFailure mIFailure=null;//请求失败
+    private  RequestBody mBody=null;//okHttp请求体
+    private File mFile=null;
+    private LoaderStyles mLoaderStyls=null;//进度条的样式
+    private Context mContext=null;//上下文
     RestClientBuilder(){
 
     }
@@ -80,7 +83,7 @@ public class RestClientBuilder {
      */
     public final RestClientBuilder success(ISuccess mISuccess){
         this.mISuccess=mISuccess;
-        return  this;
+        return this;
     }
 
     /**
@@ -90,7 +93,7 @@ public class RestClientBuilder {
      */
     public final RestClientBuilder error(IError mIError){
         this.mIError=mIError;
-        return  this;
+        return this;
     }
 
     /**
@@ -100,7 +103,7 @@ public class RestClientBuilder {
      */
     public final RestClientBuilder failure(IFailure mIFailure){
         this.mIFailure=mIFailure;
-        return  this;
+        return this;
     }
 
     /**
@@ -110,16 +113,33 @@ public class RestClientBuilder {
      */
     public final RestClientBuilder onRequest(IRequest mIRequest){
         this.mIRequest=mIRequest;
-        return  this;
+        return this;
     }
 
-    public final RestClientBuilder mulitPart(MultipartBody.Part part){
-        this.mPart=part;
-        return  this;
+    public final RestClientBuilder file(File file){
+        this.mFile=file;
+        return this;
     }
 
+    public final RestClientBuilder file(String filePath){
+        this.mFile=new File(filePath);
+        return this;
+    }
+
+    public final RestClientBuilder load(LoaderStyles loaderStyles,Context context){
+        this.mLoaderStyls=loaderStyles;
+        this.mContext=context;
+        return this;
+    }
+
+    public final RestClientBuilder load(Context context){
+        this.mContext=context;
+        this.mLoaderStyls=LoaderStyles.BallClipRotateIndicator;
+        return this;
+    }
 
     public final RestClient build(){
-        return  new RestClient(mUrl,PARAMS,mIRequest,mISuccess,mIError,mIFailure,mBody,mPart);
+        return  new RestClient(mUrl,PARAMS,mIRequest,mISuccess,mIError,mIFailure,mBody,
+                mFile,mLoaderStyls,mContext);
     }
 }
