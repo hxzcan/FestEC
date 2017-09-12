@@ -6,6 +6,8 @@ import com.joanzapata.iconify.Iconify;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.Interceptor;
+
 /**
  * Created by hx on 2017/8/31 0031.
  * email:362970502@qq.com
@@ -14,8 +16,10 @@ import java.util.HashMap;
 
 public class Configurator {
     //WeakHashMap在不使用的时候会及时回收,存储一些配置文件
-    private static final HashMap<String,Object> LATTE_CONFIGURE=new HashMap<>();
+    private static final HashMap<Object,Object> LATTE_CONFIGURE=new HashMap<>();
     private static final ArrayList<IconFontDescriptor> ICONS=new ArrayList<>();//存放字体样式
+    private static  final ArrayList<Interceptor> INTERCEPTORS=new ArrayList<>();//存放拦截器
+
     //线程安全懒汉式
     private Configurator(){
         LATTE_CONFIGURE.put(ConfigType.CONFIG_READY.name(),false);//初始化还没有完成
@@ -38,7 +42,7 @@ public class Configurator {
      * 获取配置项内容
      * @return
      */
-    public final HashMap<String,Object> getLatteConfigures(){
+    public final HashMap<Object,Object> getLatteConfigures(){
         return LATTE_CONFIGURE;
     }
 
@@ -95,4 +99,26 @@ public class Configurator {
         ICONS.add(descriptor);
         return this;
     }
+
+    /**
+     * 配置过滤器
+     * @param interceptor
+     * @return
+     */
+   public final Configurator withInterceptor(Interceptor interceptor){
+       INTERCEPTORS.add(interceptor);
+       LATTE_CONFIGURE.put(ConfigType.INTERCEPTORS.name(),INTERCEPTORS);
+       return this;
+   }
+
+    /**
+     * 配置过滤器
+     * @param interceptors 多个过滤器
+     * @return
+     */
+   public final Configurator withInterceptor(ArrayList<Interceptor> interceptors){
+       INTERCEPTORS.addAll(interceptors);
+       LATTE_CONFIGURE.put(ConfigType.INTERCEPTORS.name(),INTERCEPTORS);
+       return this;
+   }
 }

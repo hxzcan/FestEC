@@ -7,6 +7,7 @@ import com.hx.latte.app.net.callback.IFailure;
 import com.hx.latte.app.net.callback.IRequest;
 import com.hx.latte.app.net.callback.ISuccess;
 import com.hx.latte.app.net.callback.RequestCallBacks;
+import com.hx.latte.app.net.download.DownloadHandler;
 import com.hx.latte.app.ui.LatteLoader;
 import com.hx.latte.app.ui.LoaderStyles;
 
@@ -40,11 +41,14 @@ public class RestClient {
     private final File FILE;//上传文件
     private final LoaderStyles LOADERSTYLE;//加载进度条的样式
     private final Context CONTEXT;//上下文
-
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
 
     public RestClient(String url,WeakHashMap<String,Object> params,IRequest request,ISuccess success,
                         IError error, IFailure failure,RequestBody body,File file
-                        ,LoaderStyles loaderStyles,Context context){
+                        ,LoaderStyles loaderStyles,Context context,String download_dir,String extension
+                        ,String name){
         this.URL=url;
         PARAMS.putAll(params);
         this.REQUEST=request;
@@ -55,6 +59,9 @@ public class RestClient {
         this.FILE=file;
         this.LOADERSTYLE=loaderStyles;
         this.CONTEXT=context;
+        this.DOWNLOAD_DIR=download_dir;
+        this.EXTENSION=extension;
+        this.NAME=name;
     }
 
     public static RestClientBuilder Builder(){
@@ -163,5 +170,10 @@ public class RestClient {
      */
     public final void upload(){
         request(HttpMethod.UPLOAD);
+    }
+
+    public final void download(){
+        new DownloadHandler(URL,REQUEST,SUCCESSFUL,ERROR,FAILURE,DOWNLOAD_DIR,EXTENSION
+        ,NAME).handleDownload();
     }
 }

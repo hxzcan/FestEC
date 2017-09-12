@@ -1,11 +1,14 @@
 package com.hx.latte.app.net;
 
 import com.hx.latte.app.ConfigType;
+import com.hx.latte.app.Configurator;
 import com.hx.latte.app.Latte;
 
+import java.util.ArrayList;
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -40,7 +43,20 @@ public class RestCreator {
      */
     public static final class OkHttpHodler{
         public static final int TIME_OUT=60;
-        public static final OkHttpClient OK_HTTP_CLIENT=new OkHttpClient.Builder()
+        public static final OkHttpClient.Builder BUILDER=new OkHttpClient.Builder();
+        public static final ArrayList<Interceptor> INTERCEPTORS= Latte.getConfiguration(
+                ConfigType.INTERCEPTORS);
+        //向okhttp中添加拦截器
+        private static OkHttpClient.Builder addInterceptors(){
+           if (INTERCEPTORS!=null&&INTERCEPTORS.isEmpty()){
+               for (Interceptor interceptor : INTERCEPTORS) {
+                BUILDER.addInterceptor(interceptor);
+               }
+           }
+           return BUILDER;
+        }
+        //把 OkHttpClient OK_HTTP_CLIENT=new OkHttpClient.Builder()改为如下
+        public static final OkHttpClient OK_HTTP_CLIENT=addInterceptors()
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
     }

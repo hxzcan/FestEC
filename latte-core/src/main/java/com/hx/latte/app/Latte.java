@@ -18,10 +18,13 @@ public final class Latte {
         return Configurator.getInstance();
     }
 
-    public  static HashMap<String,Object> getConfigurations(){
+    public  static HashMap<Object,Object> getConfigurations(){
         return Configurator.getInstance().getLatteConfigures();
     }
 
+    public static <T> T getConfiguration(Object key){
+        return (T) getConfigurations().get(key);
+    }
     /**
      * 获取全局的Context
      * @return

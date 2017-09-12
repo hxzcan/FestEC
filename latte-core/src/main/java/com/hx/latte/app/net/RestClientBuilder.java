@@ -31,6 +31,9 @@ public class RestClientBuilder {
     private File mFile=null;
     private LoaderStyles mLoaderStyls=null;//进度条的样式
     private Context mContext=null;//上下文
+    private String mDownloadDir=null;
+    private String mExtension=null;
+    private String mName=null;
     RestClientBuilder(){
 
     }
@@ -126,20 +129,33 @@ public class RestClientBuilder {
         return this;
     }
 
-    public final RestClientBuilder load(LoaderStyles loaderStyles,Context context){
+    public final RestClientBuilder loader(LoaderStyles loaderStyles,Context context){
         this.mLoaderStyls=loaderStyles;
         this.mContext=context;
         return this;
     }
 
-    public final RestClientBuilder load(Context context){
+    public final RestClientBuilder loader(Context context){
         this.mContext=context;
         this.mLoaderStyls=LoaderStyles.BallClipRotateIndicator;
         return this;
     }
 
+    public final RestClientBuilder dir(String downloadDir){
+        this.mDownloadDir=downloadDir;
+        return this;
+    }
+
+    public  final RestClientBuilder extension(String extension){
+        this.mExtension=extension;
+        return  this;
+    }
+    public final RestClientBuilder name(String name){
+        this.mName=name;
+        return this;
+    }
     public final RestClient build(){
         return  new RestClient(mUrl,PARAMS,mIRequest,mISuccess,mIError,mIFailure,mBody,
-                mFile,mLoaderStyls,mContext);
+                mFile,mLoaderStyls,mContext,mDownloadDir,mExtension,mName);
     }
 }

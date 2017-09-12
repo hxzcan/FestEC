@@ -33,7 +33,7 @@ public class MainDelegate extends LatteDelegate {
     public void testHttp(){
         RestClient.Builder()
                 .url("http://news.baidu.com/")
-                .load(getContext())
+                .loader(getContext())
                 .success(new ISuccess() {
                     @Override
                     public void onSuccessful(String response) {
