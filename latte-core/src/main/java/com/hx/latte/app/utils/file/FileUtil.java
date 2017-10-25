@@ -1,4 +1,4 @@
-package com.hx.latte.app.utils;
+package com.hx.latte.app.utils.file;
 
 import android.content.ContentResolver;
 import android.content.Context;

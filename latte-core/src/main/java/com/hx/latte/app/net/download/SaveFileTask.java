@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import com.hx.latte.app.Latte;
 import com.hx.latte.app.net.callback.IRequest;
 import com.hx.latte.app.net.callback.ISuccess;
-import com.hx.latte.app.utils.FileUtil;
+import com.hx.latte.app.utils.file.FileUtil;
 
 import java.io.File;
 import java.io.InputStream;

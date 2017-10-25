@@ -3,6 +3,7 @@ package com.hx.latte.app.net;
 import com.hx.latte.app.ConfigType;
 import com.hx.latte.app.Configurator;
 import com.hx.latte.app.Latte;
+import com.hx.latte.app.net.rx.RxRestService;
 
 import java.util.ArrayList;
 import java.util.WeakHashMap;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
@@ -21,9 +23,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RestCreator {
 
-    public static RestService getRestService(){
-        return  RestServiceHolder.REST_SERVICE;
-    }
 
     /**
      * 构建全局的Retrofit
@@ -35,6 +34,7 @@ public class RestCreator {
                 .baseUrl(BASE_URL)
                 .client(OkHttpHodler.OK_HTTP_CLIENT)
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 
@@ -71,6 +71,24 @@ public class RestCreator {
 
     }
 
+    public static RestService getRestService(){
+        return  RestServiceHolder.REST_SERVICE;
+    }
+
+
+    /**
+     * service接口
+     */
+    public static final class RxRestServiceHolder{
+        public static final RxRestService REST_SERVICE=RetrofitHolder
+                .RETROFIT_CLIENT
+                .create(RxRestService.class);
+
+    }
+
+    public static RxRestService getRxRestService(){
+        return  RxRestServiceHolder.REST_SERVICE;
+    }
     /**
      * 初始化params,在RestClientBuilder中使用
      */
