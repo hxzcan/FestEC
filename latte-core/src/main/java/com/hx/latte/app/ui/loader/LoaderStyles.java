@@ -1,4 +1,4 @@
-package com.hx.latte.app.ui;
+package com.hx.latte.app.ui.loader;
 
 /**
  * Created by hx on 2017/9/5 0005.

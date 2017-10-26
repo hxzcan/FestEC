@@ -1,4 +1,4 @@
-package com.hx.latte.app.ui;
+package com.hx.latte.app.ui.loader;
 
 import android.content.Context;
 

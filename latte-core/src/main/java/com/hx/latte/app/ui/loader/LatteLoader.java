@@ -1,4 +1,4 @@
-package com.hx.latte.app.ui;
+package com.hx.latte.app.ui.loader;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatDialog;
@@ -24,7 +24,7 @@ public class LatteLoader {
     //集合统一管理进度条
     private static final ArrayList<AppCompatDialog> LOADERS=new ArrayList<>();
     //默认的进度条样式
-    private static final String DEFAULT_LOADING=LoaderStyles.BallClipRotateIndicator.name();
+    private static final String DEFAULT_LOADING= LoaderStyles.BallClipRotateIndicator.name();
     /**
      * 显示进度条
      * @param context 显示进度条的界面
@@ -34,7 +34,7 @@ public class LatteLoader {
 
         //尽量使用v7包中的，可以提高兼容性，在style资源文件中定义dialog的样式
         final AppCompatDialog dialog=new AppCompatDialog(context,R.style.loading_dialog);
-        final AVLoadingIndicatorView avLoadingIndicatorView=LoaderCreator.create(type,context);
+        final AVLoadingIndicatorView avLoadingIndicatorView= LoaderCreator.create(type,context);
         //把进度条布局加入dialog
         dialog.setContentView(avLoadingIndicatorView);
 

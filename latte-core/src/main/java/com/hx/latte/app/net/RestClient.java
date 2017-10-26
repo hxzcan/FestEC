@@ -8,8 +8,8 @@ import com.hx.latte.app.net.callback.IRequest;
 import com.hx.latte.app.net.callback.ISuccess;
 import com.hx.latte.app.net.callback.RequestCallBacks;
 import com.hx.latte.app.net.download.DownloadHandler;
-import com.hx.latte.app.ui.LatteLoader;
-import com.hx.latte.app.ui.LoaderStyles;
+import com.hx.latte.app.ui.loader.LatteLoader;
+import com.hx.latte.app.ui.loader.LoaderStyles;
 
 
 import java.io.File;

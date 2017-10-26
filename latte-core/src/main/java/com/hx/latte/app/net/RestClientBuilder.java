@@ -6,7 +6,7 @@ import com.hx.latte.app.net.callback.IError;
 import com.hx.latte.app.net.callback.IFailure;
 import com.hx.latte.app.net.callback.IRequest;
 import com.hx.latte.app.net.callback.ISuccess;
-import com.hx.latte.app.ui.LoaderStyles;
+import com.hx.latte.app.ui.loader.LoaderStyles;
 
 import java.io.File;
 import java.util.WeakHashMap;

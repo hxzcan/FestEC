@@ -3,9 +3,8 @@ package com.hx.latte.app.net.callback;
 
 import android.os.Handler;
 
-import com.hx.latte.app.Latte;
-import com.hx.latte.app.ui.LatteLoader;
-import com.hx.latte.app.ui.LoaderStyles;
+import com.hx.latte.app.ui.loader.LatteLoader;
+import com.hx.latte.app.ui.loader.LoaderStyles;
 
 import retrofit2.Call;
 import retrofit2.Callback;
