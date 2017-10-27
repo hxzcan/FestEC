@@ -1,11 +1,16 @@
 package com.hx.latte.launcher;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.hx.latte.app.common.AccountManager;
+import com.hx.latte.app.common.IUserChecker;
 import com.hx.latte.app.delegate.LatteDelegate;
+import com.hx.latte.app.ui.launcher.ILauncherListener;
+import com.hx.latte.app.ui.launcher.LauncherFinishTag;
 import com.hx.latte.app.ui.launcher.ScrollLauncherTag;
 import com.hx.latte.app.utils.storage.LattePreference;
 import com.hx.latte.app.utils.timer.BaseTimerTask;
@@ -32,6 +37,16 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     private Timer mTimer=null;//定义的定时器
     private int mCount=5;//倒计时
+
+    private ILauncherListener iLauncherListener;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ILauncherListener){
+            iLauncherListener= (ILauncherListener) activity;
+        }
+    }
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_launcher;
@@ -59,10 +74,26 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     //是否展示启动滚动页面
     private void checkShowScroll(){
-        if (!LattePreference.getAppFlag(ScrollLauncherTag.IS_FIRST_LAUNCHER_APP.getClass().getName())){
+        if (!LattePreference.getAppFlag(ScrollLauncherTag.IS_FIRST_LAUNCHER_APP.name())){
+            AccountManager.setSignIn(false);
             start(new LauncherScrollDelegate(),SINGLETASK);
         }else {
             //检查用户是否登陆了app
+            AccountManager.checkCount(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    if (iLauncherListener!=null){
+                        iLauncherListener.onLauncherFinish(LauncherFinishTag.SIGNED_IN);
+                    }
+                }
+
+                @Override
+                public void onNoSignIn() {
+                    if (iLauncherListener!=null){
+                        iLauncherListener.onLauncherFinish(LauncherFinishTag.UNSIGNED_IN);
+                    }
+                }
+            });
         }
     }
 

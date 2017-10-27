@@ -1,12 +1,18 @@
 package com.hx.latte.launcher;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.hx.latte.app.common.AccountManager;
+import com.hx.latte.app.common.IUserChecker;
 import com.hx.latte.app.delegate.LatteDelegate;
+import com.hx.latte.app.ui.launcher.ILauncherListener;
+import com.hx.latte.app.ui.launcher.LauncherFinishTag;
 import com.hx.latte.app.ui.launcher.LauncherHolderCreator;
 import com.hx.latte.app.ui.launcher.ScrollLauncherTag;
 import com.hx.latte.app.utils.storage.LattePreference;
@@ -36,6 +42,16 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
                 .setCanLoop(false);
     }
 
+
+    private ILauncherListener iLauncherListener;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ILauncherListener){
+            iLauncherListener= (ILauncherListener) activity;
+        }
+    }
+
     @Override
     public Object setLayout() {
         mConvenientBanner=new ConvenientBanner<Integer>(getContext());
@@ -53,8 +69,23 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
             //如果滑动的是最后一张
         if (position==INTEGERS.size()-1){
             //是第一次进入就设置为true
-            LattePreference.setAppFlag(ScrollLauncherTag.class.getName(),true);
+            LattePreference.setAppFlag(ScrollLauncherTag.IS_FIRST_LAUNCHER_APP.name(),true);
             //检查用户是否登陆了app
+            AccountManager.checkCount(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    if (iLauncherListener!=null){
+                        iLauncherListener.onLauncherFinish(LauncherFinishTag.SIGNED_IN);
+                    }
+                }
+
+                @Override
+                public void onNoSignIn() {
+                    if (iLauncherListener!=null){
+                        iLauncherListener.onLauncherFinish(LauncherFinishTag.UNSIGNED_IN);
+                    }
+                }
+            });
         }
     }
 
