@@ -64,6 +64,7 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
     }
 
 
+    //这是点击的之后有效果，并不是滑动的最后一张
         @Override
    public void onItemClick(int position) {
             //如果滑动的是最后一张

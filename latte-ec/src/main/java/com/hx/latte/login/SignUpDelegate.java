@@ -8,21 +8,19 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
+
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hx.latte.app.common.AccountManager;
+import com.hx.latte.app.common.URL;
 import com.hx.latte.app.delegate.LatteDelegate;
 import com.hx.latte.app.net.RestClient;
 import com.hx.latte.app.net.callback.ISuccess;
+import com.hx.latte.app.pojo.CommonResponse;
 import com.hx.latte.common.IShowMessage;
 import com.hx.latte.ec.R;
 import com.hx.latte.ec.R2;
-import com.hx.latte.pojo.Category;
-import com.hx.latte.pojo.CommonResponse;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -122,7 +120,7 @@ public class SignUpDelegate extends LatteDelegate{
     @OnClick(R2.id.sign_up)
     public void onClickSignUp( ){
         if (checkForm()){
-            RestClient.Builder().url("http://192.168.201.131:8080/mall/user/register.do")
+            RestClient.Builder().url(URL.SIGN_UP)
                     .params("username",mEditUsername.getText().toString())
                     .params("password",mEditPassword.getText().toString())
                     .params("email",mEditEmail.getText().toString())

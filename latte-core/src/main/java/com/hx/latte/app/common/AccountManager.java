@@ -1,6 +1,5 @@
 package com.hx.latte.app.common;
 
-import com.hx.latte.app.Latte;
 import com.hx.latte.app.utils.storage.LattePreference;
 
 /**

@@ -1,6 +1,7 @@
 package com.hx.latte.app;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -39,6 +40,11 @@ public final class Latte {
      */
     public static void showToast(String msg){
         Toast.makeText(Latte.getApplication(),msg,Toast.LENGTH_SHORT).show();
+    }
+
+
+    public static Handler  getHandler(){
+        return (Handler) getConfigurations().get(ConfigType.HANDLER.name());
     }
 
 }

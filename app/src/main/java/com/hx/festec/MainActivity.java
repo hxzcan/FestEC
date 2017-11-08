@@ -12,9 +12,10 @@ import com.hx.latte.app.ui.launcher.ILauncherListener;
 import com.hx.latte.app.ui.launcher.LauncherFinishTag;
 import com.hx.latte.common.IShowMessage;
 import com.hx.latte.launcher.LauncherDelegate;
-import com.hx.latte.launcher.LauncherScrollDelegate;
 import com.hx.latte.login.SignInDelegate;
-import com.hx.latte.login.SignUpDelegate;
+import com.hx.latte.main.EcBottomDelegate;
+
+import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
 
 public class MainActivity extends ProxyActivity implements IShowMessage,ILauncherListener{
 
@@ -42,12 +43,10 @@ public class MainActivity extends ProxyActivity implements IShowMessage,ILaunche
     public void onLauncherFinish(LauncherFinishTag tag) {
         switch (tag){
             case SIGNED_IN:
-                Toast.makeText(this, "启动结束，用户登陆了", Toast.LENGTH_SHORT).show();
-                startWithPop(new MainDelegate());
+                start(new EcBottomDelegate(),SINGLETASK);
                 break;
             case UNSIGNED_IN:
-                Toast.makeText(this, "启动结束，用户没登陆", Toast.LENGTH_SHORT).show();
-                startWithPop(new SignInDelegate());
+                start(new SignInDelegate(),SINGLETASK);
                 break;
             default:
                 break;

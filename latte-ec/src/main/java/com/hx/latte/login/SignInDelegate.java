@@ -11,13 +11,17 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hx.latte.app.common.AccountManager;
+import com.hx.latte.app.common.TokenCache;
+import com.hx.latte.app.common.URL;
 import com.hx.latte.app.delegate.LatteDelegate;
 import com.hx.latte.app.net.RestClient;
 import com.hx.latte.app.net.callback.ISuccess;
+import com.hx.latte.app.pojo.CommonResponse;
+import com.hx.latte.app.pojo.User;
 import com.hx.latte.common.IShowMessage;
 import com.hx.latte.ec.R;
 import com.hx.latte.ec.R2;
-import com.hx.latte.pojo.CommonResponse;
+import com.hx.latte.main.EcBottomDelegate;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import butterknife.BindView;
@@ -43,7 +47,8 @@ public class SignInDelegate extends LatteDelegate {
 
     private IShowMessage iShowMessage;
 
-    //??????????
+    //fragment和activity之间的交互可以用onAttach(）
+    //接口的回调
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -86,18 +91,22 @@ public class SignInDelegate extends LatteDelegate {
     public void onClickSignIn(){
         if (checkForm()){
             RestClient.Builder()
-                    .url("http://192.168.201.131:8080/mall/user/login.do")
+                    .url(URL.SIGN_IN)
                     .params("username",mEditUsername.getText().toString())
                     .params("password",mEditPassword.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void onSuccessful(String response) {
                             Gson gson=new Gson();
-                            CommonResponse commonResponse=gson.fromJson(response,
-                                    new TypeToken<CommonResponse>(){}.getType());
+                            CommonResponse<User> commonResponse=gson.fromJson(response,
+                                    new TypeToken<CommonResponse<User>>(){}.getType());
                             if (commonResponse.getStatus()==0){
                                iShowMessage.showMessage(commonResponse.getMsg());
+                                User user=commonResponse.getData();
+                                TokenCache.setKey("user",user);
+                                //设置为true，下次就会直接进入app
                                 AccountManager.setSignIn(true);
+                                start(new EcBottomDelegate());
                             }else if (commonResponse.getStatus()==1){
                                 iShowMessage.showMessage(commonResponse.getMsg());
                             }
@@ -116,7 +125,7 @@ public class SignInDelegate extends LatteDelegate {
 
     //微信登录
     @OnClick(R2.id.sign_in_icon_other_method)
-    public void onClickOtherMethod(){
+    public void onClickOtherMethodLogin(){
 
     }
 
