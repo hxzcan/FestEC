@@ -20,6 +20,7 @@ public class SortBean {
     private Integer sortOrder;
     private Long createTime;
     private Long updateTime;
+    private boolean isSelect=false;
 
     public Integer getId() {
         return id;
@@ -77,6 +78,14 @@ public class SortBean {
         this.updateTime = updateTime;
     }
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
     @Override
     public String toString() {
         return "SortBean{" +
@@ -87,6 +96,7 @@ public class SortBean {
                 ", sortOrder=" + sortOrder +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", isSelect=" + isSelect +
                 '}';
     }
 }

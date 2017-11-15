@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="we_chat_black">#323232</color>
+    <color name="sort_left_list_item_bg">@android:color/holo_orange_dark</color>
+    <color name="text_color">@android:color/white</color>
 </resources>

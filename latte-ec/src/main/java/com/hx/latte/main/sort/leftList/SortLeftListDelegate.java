@@ -20,6 +20,7 @@ import com.hx.latte.app.pojo.CommonResponse;
 import com.hx.latte.app.ui.recyclerView.BaseDecoration;
 import com.hx.latte.ec.R;
 import com.hx.latte.ec.R2;
+import com.hx.latte.main.sort.SortDelegate;
 import com.hx.latte.main.sort.adapter.SortLeftListAdapter;
 import com.hx.latte.pojo.SortBean;
 
@@ -69,7 +70,8 @@ public class SortLeftListDelegate extends LatteDelegate{
                                 new TypeToken<CommonResponse<List<SortBean>>>(){}.getType());
                         int status=listCommonResponse.getStatus();
                         if (status==0){
-                           sortBeanList.addAll(listCommonResponse.getData());
+                            sortBeanList.addAll(listCommonResponse.getData());
+                            sortBeanList.get(0).setSelect(true);//设置默认的是第一个被选中
                             handler.sendEmptyMessage(1);
                         }else if (status==1){
                             Latte.showToast(listCommonResponse.getMsg());
@@ -86,8 +88,10 @@ public class SortLeftListDelegate extends LatteDelegate{
             super.handleMessage(msg);
             if (msg.what==1){
                 if (sortBeanList!=null&&sortBeanList.size()>0){
-                    sortLeftListAdapter=new SortLeftListAdapter(sortBeanList,_mActivity);
+                    SortDelegate sortDelegate=getParentDelegate();
+                    sortLeftListAdapter=new SortLeftListAdapter(sortBeanList,_mActivity,sortDelegate);
                     mRecyclerView.setAdapter(sortLeftListAdapter);
+                    sortLeftListAdapter.showRightContent(sortBeanList.get(0).getId());
                     sortLeftListAdapter.notifyDataSetChanged();
                 }
             }

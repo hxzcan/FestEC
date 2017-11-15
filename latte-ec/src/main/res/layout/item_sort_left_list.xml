@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.AppCompatTextView
-    android:id="@+id/item_sort_left_text"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:layout_height="50dp"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:textSize="15sp"
-    android:layout_height="50dp">
-</android.support.v7.widget.AppCompatTextView>
+    android:background="@android:color/white"
+    >
+    <View
+        android:id="@+id/left_line"
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/item_sort_left_text"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_toRightOf="@+id/left_line"
+        android:layout_height="50dp">
+    </android.support.v7.widget.AppCompatTextView>
+</RelativeLayout>

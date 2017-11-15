@@ -57,8 +57,7 @@ public class MultipleRecycleAdapter extends BaseMultiItemQuickAdapter<MultipleIt
     //进行数据转换，根据类型来设置
     @Override
     protected void convert(MultipleViewHolder holder, MultipleItemEntity item) {
-        Log.i("xxxxxxx",item.getField(MultipleFieldsEnum.SPAN_SIZE)+"---"+holder.getItemViewType()+"--"+
-                item.getField(MultipleFieldsEnum.DES));
+
         //取出数据
         String name=null;
         String des=null;
@@ -127,7 +126,6 @@ public class MultipleRecycleAdapter extends BaseMultiItemQuickAdapter<MultipleIt
         openLoadAnimation();
         //多次执行动画
         isFirstOnly(false);
-
     }
 
     //轮播图的监听事件

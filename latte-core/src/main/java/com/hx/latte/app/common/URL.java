@@ -7,9 +7,9 @@ package com.hx.latte.app.common;
 
 public class URL {
     //数据前缀
-    public static final String URL_PRIX="http://192.168.201.160:8080/hx/";
+    public static final String URL_PRIX="http://192.168.0.103:8080/hx/";
     //图片请求前缀
-    public static final String IMAGE_PRIX="http://192.168.201.160:8080/image/";
+    public static final String IMAGE_PRIX="http://192.168.0.103:8080/image/";
     //注册
     public static final String SIGN_UP=URL_PRIX+"user/register.do";
     //登陆
@@ -20,5 +20,5 @@ public class URL {
     //所有的父分类
     public static final String SORT_PARENT=URL_PRIX+"category/category_parentLevel.do";
     //二级分类 参数int parentLevelId
-    public static final String SORT_SECOND=URL_PRIX+"category/category_childLevel.do";
+    public static final String SORT_SECOND=URL_PRIX+"category/category_childList.do";
 }
