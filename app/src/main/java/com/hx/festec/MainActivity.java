@@ -1,19 +1,23 @@
 package com.hx.festec;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hx.latte.app.activity.ProxyActivity;
 import com.hx.latte.app.delegate.LatteDelegate;
 import com.hx.latte.app.ui.launcher.ILauncherListener;
 import com.hx.latte.app.ui.launcher.LauncherFinishTag;
-import com.hx.latte.common.IShowMessage;
+import com.hx.latte.app.common.IShowMessage;
+import com.hx.latte.app.utils.StatusBarUtil;
 import com.hx.latte.launcher.LauncherDelegate;
 import com.hx.latte.login.SignInDelegate;
 import com.hx.latte.main.EcBottomDelegate;
+
 
 import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
 
@@ -22,11 +26,18 @@ public class MainActivity extends ProxyActivity implements IShowMessage,ILaunche
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*if (Build.VERSION.SDK_INT>21){//透明式状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }*/
+        //StatusBarUtil.setStatusBarColor(this,getResources().getColor(android.R.color.holo_orange_light));
         final ActionBar actionBar=getSupportActionBar();
         //隐藏标题栏
         if (actionBar!=null){
             actionBar.hide();
         }
+
+
     }
 
     @Override

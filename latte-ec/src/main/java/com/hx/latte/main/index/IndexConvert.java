@@ -1,9 +1,10 @@
 package com.hx.latte.main.index;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hx.latte.app.ui.recyclerView.DataConverter;
 import com.hx.latte.app.ui.recyclerView.MultipleFieldsEnum;
 import com.hx.latte.app.ui.recyclerView.MultipleItemEntity;
@@ -24,6 +25,7 @@ public class IndexConvert extends DataConverter {
         Integer totalNumber=jsonObject.getInteger("total");
         Integer pages=jsonObject.getInteger("pages");
         JSONArray list=jsonObject.getJSONArray("list");
+
         int spanSize=0;
         int dataSize=list.size();
             for (int j=0;j<dataSize;j++){
@@ -32,13 +34,13 @@ public class IndexConvert extends DataConverter {
                 String name=dataObject.getString("name");
                 String subTitle=dataObject.getString("subtitle");
                 String mainImage=dataObject.getString("mainImage");
-                String price=dataObject.getString("price");
+                Long  price=dataObject.getLong("price");
                 Integer stock=dataObject.getInteger("stock");
                 Integer itemType=dataObject.getInteger("itemType");
                 if (itemType==3){
                     spanSize=2;
                 }else {
-                    spanSize=1;
+                    spanSize=4;
                 }
                MultipleItemEntity multiItemEntity=MultipleItemEntity.builder().setField(MultipleFieldsEnum.ITEM_TYPE,itemType)
                         .setField(MultipleFieldsEnum.PRODUCT_ID,productId)

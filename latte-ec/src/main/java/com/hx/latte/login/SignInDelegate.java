@@ -18,7 +18,7 @@ import com.hx.latte.app.net.RestClient;
 import com.hx.latte.app.net.callback.ISuccess;
 import com.hx.latte.app.pojo.CommonResponse;
 import com.hx.latte.app.pojo.User;
-import com.hx.latte.common.IShowMessage;
+import com.hx.latte.app.common.IShowMessage;
 import com.hx.latte.ec.R;
 import com.hx.latte.ec.R2;
 import com.hx.latte.main.EcBottomDelegate;

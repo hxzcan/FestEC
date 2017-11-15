@@ -1,10 +1,8 @@
 package com.hx.latte.app.ui.recyclerView;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by hx on 2017/11/2 0002.

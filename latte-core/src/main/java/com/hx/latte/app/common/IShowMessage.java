@@ -1,4 +1,4 @@
-package com.hx.latte.common;
+package com.hx.latte.app.common;
 
 /**
  * Created by hx on 2017/10/27 0027.

@@ -15,6 +15,8 @@ public class PageBean {
     //当前已经显示了几条数据
     private int mCurrentTotalNumber=0;
 
+    private int mDelay=0;
+
     public int getmPageIndex() {
         return mPageIndex;
     }
@@ -48,6 +50,15 @@ public class PageBean {
 
     public PageBean setmCurrentTotalNumber(int mCurrentTotalNumber) {
         this.mCurrentTotalNumber = mCurrentTotalNumber;
+        return this;
+    }
+
+    public int getmDelay() {
+        return mDelay;
+    }
+
+    public PageBean setmDelay(int mDelay) {
+        this.mDelay = mDelay;
         return this;
     }
 

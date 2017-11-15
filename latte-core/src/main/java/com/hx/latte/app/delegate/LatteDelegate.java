@@ -8,4 +8,7 @@ package com.hx.latte.app.delegate;
 
 public abstract class LatteDelegate extends PermissonCheckerDelegate {
 
+    public <T extends LatteDelegate> T getParentDelegate(){
+        return (T) getParentFragment();
+    }
 }

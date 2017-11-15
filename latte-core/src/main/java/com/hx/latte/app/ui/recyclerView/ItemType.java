@@ -7,9 +7,11 @@ package com.hx.latte.app.ui.recyclerView;
  */
 
 public class ItemType {
-    public static final int TEXT=2;//只有文字描述
-    public static final int IMAGE=1;//只有图片
-    public static final int IMAGE_TEXT=3;//既有文字又有图片
+
     public static final int BANNER=0;//轮播
+    public static final int IMAGE=1;//只有图片
+    public static final int TEXT=2;//只有文字描述
+    public static final int IMAGE_TEXT=3;//既有文字又有图片
+
 
 }

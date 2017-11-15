@@ -17,11 +17,11 @@ public class BannerCreator {
     public static  void setDefault(ConvenientBanner<String> convenientBanner,
                                    ArrayList<String> banners, OnItemClickListener onItemClickListener){
         convenientBanner.setPages(new HolderCreator(),banners)
-                .setPageIndicator(new int[]{R.drawable.dot_normal,R.drawable.dot_focus})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
-                .setOnItemClickListener(onItemClickListener)
-                .setPageTransformer(new DefaultTransformer())
-                .startTurning(3000)
-                .setCanLoop(true);
+            .setPageIndicator(new int[]{R.drawable.dot_normal,R.drawable.dot_focus})//设置小圆点样式
+            .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)//指示器的样式
+            .setOnItemClickListener(onItemClickListener)//点击监听
+            .setPageTransformer(new DefaultTransformer())
+            .startTurning(3000)//多少秒换一张图片
+            .setCanLoop(true);//是否循环
     }
 }
