@@ -90,7 +90,6 @@ public class SortRightContentDelegate extends LatteDelegate {
                                 new TypeToken<CommonResponse<List<SortBeanOrigin>>>(){}.getType());
                         int status=commonResponse.getStatus();
                         if (status==0){
-
                             for (SortBeanOrigin origins:commonResponse.getData()){
                                 String title=origins.getFirstSection();
                                 SortBeanVo sortBeanVo=new SortBeanVo(true,title);
