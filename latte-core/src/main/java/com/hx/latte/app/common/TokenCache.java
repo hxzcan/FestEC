@@ -20,7 +20,7 @@ public class TokenCache {
    public static LoadingCache<String,Object> localCache=CacheBuilder.newBuilder()
             .initialCapacity(1000)
             .maximumSize(10000)
-            .expireAfterWrite(24, TimeUnit.HOURS)
+            .expireAfterWrite(30, TimeUnit.DAYS)
             .build(new CacheLoader<String, Object>() {
                 @Override
                 public Object load(String key) throws Exception {
@@ -42,7 +42,7 @@ public class TokenCache {
             }else {
                 return value;
             }
-        } catch (ExecutionException e) {
+        } catch (ExecutionException e){
             e.printStackTrace();
         }
         return null;

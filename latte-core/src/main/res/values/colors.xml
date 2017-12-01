@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="app_background">#1111</color>
+    <color name="gray">#F5F5F5</color>
+    <color name="title_color">@android:color/holo_orange_dark</color>
+    <color name="white">@android:color/white</color>
+    <color name="dark_gray">@android:color/darker_gray</color>
 </resources>

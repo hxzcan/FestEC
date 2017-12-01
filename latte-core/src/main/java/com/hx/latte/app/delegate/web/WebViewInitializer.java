@@ -5,6 +5,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 /**
+ * 设置webview的一些属性
  * Created by hexiao on 2017/11/29.
  */
 

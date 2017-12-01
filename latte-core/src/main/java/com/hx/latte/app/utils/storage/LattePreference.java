@@ -7,6 +7,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hx.latte.app.Latte;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by hx on 2017/10/24 0024.
  * email:362970502@qq.com
@@ -69,6 +72,7 @@ public class LattePreference {
         return getAppPreference()
                 .getBoolean(key, false);
     }
+
 
     public static void addCustomAppProfile(String key, String val) {
         getAppPreference()

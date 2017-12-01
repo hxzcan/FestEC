@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hx.latte.app.Latte;
 import com.hx.latte.app.common.AccountManager;
 import com.hx.latte.app.common.TokenCache;
 import com.hx.latte.app.common.URL;
@@ -19,6 +20,7 @@ import com.hx.latte.app.net.callback.ISuccess;
 import com.hx.latte.app.pojo.CommonResponse;
 import com.hx.latte.app.pojo.User;
 import com.hx.latte.app.common.IShowMessage;
+import com.hx.latte.app.utils.storage.LattePreference;
 import com.hx.latte.ec.R;
 import com.hx.latte.ec.R2;
 import com.hx.latte.main.EcBottomDelegate;
@@ -103,8 +105,14 @@ public class SignInDelegate extends LatteDelegate {
                             if (commonResponse.getStatus()==0){
                                iShowMessage.showMessage(commonResponse.getMsg());
                                 User user=commonResponse.getData();
-                                TokenCache.setKey("user",user);
-                                //设置为true，下次就会直接进入app
+                                //缓存
+                                //TokenCache.setKey("user",user);
+                                //缓存token值
+                                LattePreference.addCustomAppProfile("token",user.getToken());
+                                //缓存userid;
+                                LattePreference.addCustomAppProfile("userId",String.valueOf(user.getId()));
+                                //设置为true，下次就会直接进入app1
+                                //Latte.showToast(TokenCache.getValue("user").toString());
                                 AccountManager.setSignIn(true);
                                 start(new EcBottomDelegate());
                             }else if (commonResponse.getStatus()==1){
