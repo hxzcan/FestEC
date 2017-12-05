@@ -56,9 +56,11 @@
     </android.support.v7.widget.RecyclerView>
     <!--当没有内容的时候用来显示-->
     <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/cart_no_good"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="8"
+        android:layout="@layout/sub_shop_cart_no_item"
         android:background="@color/white"
         android:minHeight="50dp"
         />
@@ -72,6 +74,7 @@
         >
         <!--全选部分-->
         <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/cart_delegate_select_all_lay"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -105,7 +108,6 @@
             android:layout_weight="2"
             >
             <android.support.v7.widget.AppCompatTextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

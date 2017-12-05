@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="8"
+    >
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/cart_is_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{fa-shopping-cart}"
+        android:textSize="60sp"
+        android:textColor="@color/dark_gray"
+        android:layout_centerInParent="true"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/cart_tv_go_shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="购物车是空的"
+        android:textSize="15sp"
+        android:textColor="@color/title_color"
+        android:layout_below="@+id/cart_is_null"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        />
+</RelativeLayout>

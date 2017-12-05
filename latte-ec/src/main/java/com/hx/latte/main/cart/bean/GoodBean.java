@@ -37,7 +37,9 @@ public class GoodBean implements MultiItemEntity {
 
     private String limitQuantity;//限制商品数量的返回结果
 
-    private Integer mItemType=1;
+    private Integer mItemType=1;//根据这个来设置布局的样式
+
+    private Integer adapterPosition=0;//在适配器中的位置
 
     public Integer getCartId() {
         return cartId;
@@ -153,6 +155,14 @@ public class GoodBean implements MultiItemEntity {
         this.mItemType = mItemType;
     }
 
+    public Integer getAdapterPosition() {
+        return adapterPosition;
+    }
+
+    public void setAdapterPosition(Integer adapterPosition) {
+        this.adapterPosition = adapterPosition;
+    }
+
     @Override
     public String toString() {
         return "GoodBean{" +
@@ -170,6 +180,7 @@ public class GoodBean implements MultiItemEntity {
                 ", productStatus=" + productStatus +
                 ", limitQuantity='" + limitQuantity + '\'' +
                 ", mItemType=" + mItemType +
+                ", adapterPosition=" + adapterPosition +
                 '}';
     }
 }

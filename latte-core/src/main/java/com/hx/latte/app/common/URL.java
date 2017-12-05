@@ -28,21 +28,21 @@ public class URL {
     public static final String SORT_SECOND=URL_PRIX+"category/category_childList.do";
 
     //--------------------购物车------------------------//
-    //购物车的所有商品 参数 appToken；userId
+    //购物车的所有商品 参数 appToken；userId  请求方式：get
     public static final String CART_GOODS_LIST=URL_PRIX+"cart/get_productFromCart.do";
-    //全选 参数 appToken；userId
-    public static final String CART_SELECT_ALL=URL_PRIX+"select_all.do";
-    //全不选 参数 appToken；userId
-    public static final String CART_NUSELECT_ALL=URL_PRIX+"unSelect_all.do";
-    //单个选中 参数 appToken；userId;productId
-    public static final String CART_SELECT_SINGLE=URL_PRIX+"select_single.do";
-    //单个取消选中 参数 appToken；userId;productId
-    public static final String CART_SELECT_UNSINGLE=URL_PRIX+"unSelect_single.do";
-    //添加数量 参数appToken；userId;count;productId
-    public static final String CART_ADD_GOOD=URL_PRIX+"update_product2Cart.do";
-    //删除购物车的商品，一个或者多个 参数 appToken；userId;productIds
-    public static final String CART_DELETE_GOODS=URL_PRIX+"delete_productFromCart.do";
-    //清空购物车
-    public static final String CART_CLEAR_ALL=URL_PRIX+"";
+    //全选 参数 appToken；userId 请求方式：get
+    public static final String CART_SELECT_ALL=URL_PRIX+"cart/select_all.do";
+    //全不选 参数 appToken；userId 请求方式：get
+    public static final String CART_USELECT_ALL=URL_PRIX+"cart/unSelect_all.do";
+    //单个选中 参数 appToken；userId;productId 请求方式：get
+    public static final String CART_SELECT_SINGLE=URL_PRIX+"cart/select_single.do";
+    //单个取消选中 参数 appToken；userId;productId 请求方式：get
+    public static final String CART_UNSELECT_SINGLE=URL_PRIX+"cart/unSelect_single.do";
+    //添加数量 参数appToken；userId;count;productId 请求方式：post
+    public static final String CART_ADD_GOOD=URL_PRIX+"cart/update_product2Cart.do";
+    //删除购物车的商品，一个或者多个 参数 appToken；userId;productIds 请求方式：post
+    public static final String CART_DELETE_GOODS=URL_PRIX+"cart/delete_productFromCart.do";
+    //清空购物车 参数;appToken;userId 请求方式：get
+    public static final String CART_CLEAR_ALL=URL_PRIX+"cart/clear_all.do";
 
 }

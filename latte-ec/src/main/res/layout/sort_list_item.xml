@@ -14,7 +14,9 @@
         android:layout_marginLeft="10dp"
         android:gravity="center"
         android:text="{fa-check-circle}"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        />
     <!--商品图片-->
     <LinearLayout
         android:id="@+id/sort_item_good"
