@@ -7,14 +7,14 @@ package com.hx.latte.app.common;
 
 public class URL {
     //数据前缀
-    public static final String URL_PRIX="http://192.168.201.174:8080/hx/";
+    public static final String URL_PRIX="http://106.14.11.28:8080/hx/";
     //图片请求前缀
-    public static final String IMAGE_PRIX="http://192.168.201.174:8080/image/";
+    public static final String IMAGE_PRIX="http://106.14.11.28:8080/image/";
 
     //----------------------------------登陆 注册----------------------------------//
     //注册
     public static final String SIGN_UP=URL_PRIX+"user/register.do";
-    //登陆
+    //登陆 参数：
     public static final String SIGN_IN=URL_PRIX+"user/login.do";
 
     //-------------------------------------首页--------------------------------//

@@ -135,6 +135,7 @@ public class SignUpDelegate extends LatteDelegate{
                             if (commonResponse.getStatus()==0){
                                 iShowMessage.showMessage(commonResponse.getMsg());
                                 AccountManager.setSignIn(true);
+                                start(new SignInDelegate());
                             }else if (commonResponse.getStatus()==1){
                                 iShowMessage.showMessage(commonResponse.getMsg());
                             }
@@ -147,6 +148,6 @@ public class SignUpDelegate extends LatteDelegate{
     //跳转到登录
     @OnClick(R2.id.have_signUp)
     public void onClickSignUp2In(){
-        start(new SignInDelegate(),SINGLETASK);
+        start(new SignInDelegate());
     }
 }

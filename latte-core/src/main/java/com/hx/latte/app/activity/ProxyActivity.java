@@ -1,11 +1,16 @@
 package com.hx.latte.app.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ContentFrameLayout;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.hx.latte.R;
 import com.hx.latte.app.delegate.LatteDelegate;
+import com.hx.latte.app.utils.InputUtil;
 
 import me.yokeyword.fragmentation.SupportActivity;
 
@@ -42,4 +47,25 @@ public abstract class ProxyActivity extends SupportActivity {
         System.gc();
         System.runFinalization();
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction()==MotionEvent.ACTION_DOWN){
+            View v=getCurrentFocus();
+            if (InputUtil.isShouldHideInput(v,ev)){
+                InputMethodManager inputMethodManager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager!=null){
+                    //键盘消失
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
+                }
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        //必不可少，不然所有的组件都会失去TouchEvent
+        if (getWindow().superDispatchTouchEvent(ev)){
+            return  true;
+        }
+        return onTouchEvent(ev);
+    }
+
 }

@@ -62,4 +62,5 @@ public abstract class BaseDelegate extends SwipeBackFragment{
             mUnbinder.unbind();
         }
     }
+
 }

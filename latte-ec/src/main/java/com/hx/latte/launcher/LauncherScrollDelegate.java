@@ -66,7 +66,7 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
 
     //这是点击的之后有效果，并不是滑动的最后一张
         @Override
-   public void onItemClick(int position) {
+   public void onItemClick(final int position) {
             //如果滑动的是最后一张
         if (position==INTEGERS.size()-1){
             //是第一次进入就设置为true

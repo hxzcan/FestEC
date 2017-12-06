@@ -1,11 +1,9 @@
 package com.hx.festec;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hx.latte.app.activity.ProxyActivity;
@@ -13,13 +11,10 @@ import com.hx.latte.app.delegate.LatteDelegate;
 import com.hx.latte.app.ui.launcher.ILauncherListener;
 import com.hx.latte.app.ui.launcher.LauncherFinishTag;
 import com.hx.latte.app.common.IShowMessage;
-import com.hx.latte.app.utils.StatusBarUtil;
 import com.hx.latte.launcher.LauncherDelegate;
 import com.hx.latte.login.SignInDelegate;
 import com.hx.latte.main.EcBottomDelegate;
 
-
-import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
 
 public class MainActivity extends ProxyActivity implements IShowMessage,ILauncherListener{
 
@@ -54,10 +49,10 @@ public class MainActivity extends ProxyActivity implements IShowMessage,ILaunche
     public void onLauncherFinish(LauncherFinishTag tag) {
         switch (tag){
             case SIGNED_IN:
-                start(new EcBottomDelegate(),SINGLETASK);
+                start(new EcBottomDelegate());
                 break;
             case UNSIGNED_IN:
-                start(new SignInDelegate(),SINGLETASK);
+                start(new SignInDelegate());
                 break;
             default:
                 break;

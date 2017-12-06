@@ -1,6 +1,7 @@
 package com.hx.latte.main.cart;
 
 
+import java.math.BigDecimal;
 
 /**
  * Created by hexiao on 2017/12/1.
@@ -14,4 +15,16 @@ public interface IChanged {
      */
     void setChange(boolean isChanged);
 
+    /**
+     * 单个商品的总价格
+     * @param singleTotalPrice
+     * @param plusOrMinus 0:代表是加，1：代表是减
+     */
+    void setPrice(BigDecimal singleTotalPrice,Integer plusOrMinus);
+
+    /**
+     * 选择的数量
+     * @param plusOrMinus
+     */
+    void setSelectCount(Integer plusOrMinus);
 }

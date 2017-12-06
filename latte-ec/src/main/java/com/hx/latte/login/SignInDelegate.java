@@ -128,7 +128,7 @@ public class SignInDelegate extends LatteDelegate {
     //注册，跳转到注册
     @OnClick(R2.id.sign_in_not_have)
     public void onClickSignIn2Up(){
-        start(new SignUpDelegate(),SINGLETASK);
+        start(new SignUpDelegate());
     }
 
     //微信登录

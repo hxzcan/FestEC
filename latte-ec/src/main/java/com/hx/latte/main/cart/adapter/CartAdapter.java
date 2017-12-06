@@ -1,7 +1,6 @@
 package com.hx.latte.main.cart.adapter;
 
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +16,6 @@ import com.hx.latte.app.common.UserMessage;
 import com.hx.latte.app.net.RestClient;
 import com.hx.latte.app.net.callback.ISuccess;
 import com.hx.latte.app.pojo.CommonResponse;
-import com.hx.latte.app.pojo.User;
 import com.hx.latte.app.ui.glide.GlideApp;
 import com.hx.latte.ec.R;
 import com.hx.latte.main.cart.IChanged;
@@ -25,6 +23,7 @@ import com.hx.latte.main.cart.bean.GoodBean;
 import com.hx.latte.main.cart.bean.GoodBeanVo;
 import com.joanzapata.iconify.widget.IconTextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -102,6 +101,11 @@ public class CartAdapter extends BaseMultiItemQuickAdapter<GoodBean,BaseViewHold
                                                 if (code==0){
                                                     isChecked.setBackgroundColor(ContextCompat.getColor(mContext,R.color.dark_gray));
                                                     item.setChecked(0);
+                                                    //计算价格
+                                                    BigDecimal bigDecimal=item.getProductPrice().
+                                                            multiply(new BigDecimal(item.getQuantity()));
+                                                    changed.setPrice(bigDecimal,1);//价格的回调
+                                                    changed.setSelectCount(1);//数量的回调
                                                 }
                                             }
                                         })
@@ -120,8 +124,14 @@ public class CartAdapter extends BaseMultiItemQuickAdapter<GoodBean,BaseViewHold
                                                         new TypeToken<CommonResponse<GoodBeanVo>>(){}.getType());
                                                 Integer code=data.getStatus();
                                                 if (code==0){
-                                                    isChecked.setBackgroundColor(ContextCompat.getColor(mContext,R.color.title_color));
+                                                    isChecked.setBackgroundColor(ContextCompat.
+                                                            getColor(mContext,R.color.title_color));
                                                     item.setChecked(1);
+                                                    //计算价格
+                                                   BigDecimal bigDecimal=item.getProductPrice().
+                                                           multiply(new BigDecimal(item.getQuantity()));
+                                                    changed.setPrice(bigDecimal,0);//价格的回调
+                                                    changed.setSelectCount(0);//数量的回调
                                                 }
                                             }
                                         })
@@ -154,6 +164,13 @@ public class CartAdapter extends BaseMultiItemQuickAdapter<GoodBean,BaseViewHold
                                                 if (code==0){
                                                     quantity.setText(String.valueOf(finalCurrentCount));
                                                     item.setQuantity(finalCurrentCount);
+                                                    item.setProductTotalPrice(item.getProductTotalPrice().
+                                                            subtract(item.getProductPrice()));
+                                                    //判断是否勾选
+                                                    if (item.getChecked()==1){
+                                                        //计算价格
+                                                        changed.setPrice(item.getProductPrice(),1);
+                                                    }
                                                 }else {
                                                     Latte.showToast(msg);
                                                 }
@@ -170,7 +187,37 @@ public class CartAdapter extends BaseMultiItemQuickAdapter<GoodBean,BaseViewHold
                         public void onClick(View view) {
                             Integer count=item.getQuantity();
                             count++;
-                            quantity.setText(String.valueOf(item.getQuantity()));
+                            final Integer finalCount = count;
+                            RestClient.Builder()
+                                    .url(URL.CART_ADD_GOOD)
+                                    .params("appToken",UserMessage.USER_TOKEN)
+                                    .params("userId",UserMessage.USER_ID)
+                                    .params("count",count)
+                                    .params("productId",item.getProductId())
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void onSuccessful(String response) {
+                                            Gson gson=new Gson();
+                                            CommonResponse<GoodBeanVo> data=gson.fromJson(response,
+                                                    new TypeToken<CommonResponse<GoodBeanVo>>(){}.getType());
+                                            Integer code=data.getStatus();
+                                            String msg=data.getMsg();
+                                            if (code==0){
+                                                quantity.setText(String.valueOf(finalCount));
+                                                item.setQuantity(finalCount);
+                                                item.setProductTotalPrice(item.getProductTotalPrice().
+                                                        add(item.getProductPrice()));
+                                                //判断是否勾选
+                                                if (item.getChecked()==1){
+                                                    //计算价格
+                                                    changed.setPrice(item.getProductPrice(),0);
+                                                }
+                                            }else {
+                                                Latte.showToast(msg);
+                                            }
+                                        }
+                                    })
+                                    .build().post();
                         }
                     });
                 }

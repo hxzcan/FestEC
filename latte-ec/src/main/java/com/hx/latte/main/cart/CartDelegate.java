@@ -28,6 +28,7 @@ import com.hx.latte.main.cart.bean.GoodBean;
 import com.hx.latte.main.cart.bean.GoodBeanVo;
 import com.joanzapata.iconify.widget.IconTextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +55,6 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
     IconTextView mCartSelectAll;
     @BindView(R2.id.cart_delegate_money)//合计金额
     AppCompatTextView mCartMoney;
-    @BindView(R2.id.cart_delegate_count_money)//结算
-    AppCompatTextView mCartCount;
     @BindView(R2.id.cart_no_good)
     ViewStubCompat mViewStubCompat;//用来填充其他布局
 
@@ -63,6 +62,9 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
     private CartAdapter mCartAdapter;
     private List<Integer> selectedGoodId;//存放要删除的产品id
     private String ids;//选中删除的id
+    private BigDecimal totalPrice;//总价
+    private Integer mSelectCount=0;//勾选的数目；
+    private Integer mTotalSize=0;//购物车内的商品种类的个数，不是数量的个数
 
     @Override
     public Object setLayout() {
@@ -98,12 +100,34 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
                             mCartList.setLayoutManager(manager);
                             mCartList.setAdapter(mCartAdapter);
                             mCartAdapter.notifyDataSetChanged();
-                            //如果是已经是全部勾选了，则设置全部勾选
-                            if (goodBeanVo.getAllCheck()){
-                                mCartSelectAll.setTextColor(ContextCompat.getColor(_mActivity,R.color.title_color));
-                                mCartSelectAllLay.setTag(1);
-                                mCartAdapter.setSelectedAll(true);
+
+                            if (mGoodsList.isEmpty()){
+                                mTotalSize=0;
+                            }else {
+                                //如果是已经是全部勾选了，则设置全部勾选
+                                if (goodBeanVo.getAllCheck()){
+                                    mCartSelectAll.setTextColor(ContextCompat.getColor(_mActivity,R.color.title_color));
+                                    mCartSelectAllLay.setTag(1);
+                                    mCartAdapter.setSelectedAll(true);
+                                }else {
+                                    //没有全勾选先计算出勾选出来的数量
+                                    for (GoodBean goodBean : mGoodsList) {
+                                        if (goodBean.getChecked()==1){
+                                            mSelectCount++;
+                                        }
+                                    }
+                                }
+                                //
+                                if (goodBeanVo.getCartTotalPrice()==null){
+                                    totalPrice=new BigDecimal(0);
+                                    mCartMoney.setText("￥"+0.00);
+                                }else {
+                                    totalPrice=goodBeanVo.getCartTotalPrice();
+                                    mCartMoney.setText("￥"+goodBeanVo.getCartTotalPrice());
+                                }
+                                mTotalSize=mGoodsList.size();//商品种类的总个数
                             }
+
                             checkItemCount();
                         }else {
                             Latte.showToast(msg);
@@ -119,6 +143,8 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
      */
     @OnClick(R2.id.cart_delegate_select_all_lay)
     public void OnClickSelectAll(){
+        mGoodsList=mCartAdapter.getData();//从新获取数据
+        Log.i(TAG,mGoodsList.toString());
         int tag= (int) mCartSelectAllLay.getTag();
         if (tag==0){//设置为全选
             RestClient.Builder().url(URL.CART_SELECT_ALL)
@@ -136,12 +162,17 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
                                 mCartSelectAll.setTextColor(ContextCompat.getColor(_mActivity,R.color.title_color));
                                 mCartSelectAllLay.setTag(1);
                                 mCartAdapter.setSelectedAll(true);
+                                totalPrice=new BigDecimal(0);
                                 for (GoodBean goodBean : mGoodsList) {
                                     goodBean.setChecked(1);
+                                    //计算价格
+                                    totalPrice=totalPrice.add(goodBean.getProductTotalPrice());
                                 }
                                 mCartAdapter.notifyDataSetChanged();//更新改变的内容 这个不会闪动
                                 //有问题？只更新改变的内容 这个会闪动
                                 //mCartAdapter.notifyItemRangeChanged(0,mCartAdapter.getItemCount());
+                                mCartMoney.setText("￥"+totalPrice);
+                                mSelectCount=mTotalSize;//全选的时候把数量置为总数
                             }else {
                                 Latte.showToast(msg);
                             }
@@ -168,6 +199,9 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
                                     goodBean.setChecked(0);
                                 }
                                 mCartAdapter.notifyDataSetChanged();
+                                totalPrice=new BigDecimal(0);//把计算价格的变量设置为0
+                                mCartMoney.setText("￥"+0.00);//把价格设置为0
+                                mSelectCount=0;//设置全不选的时候置为0
                                 //mCartAdapter.notifyItemRangeChanged(0,mCartAdapter.getItemCount());
                             }else {
                                 Latte.showToast(msg);
@@ -184,7 +218,6 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
     @OnClick(R2.id.cart_delegate_delete)
     public void onClickDeleteSelected(){
         mGoodsList=mCartAdapter.getData();//获取到数据
-        Log.i(TAG,mGoodsList.toString());
         //存放要删除的id
         selectedGoodId = new ArrayList<>();
         for (GoodBean goodBean :mGoodsList) {//遍历是1的
@@ -194,7 +227,6 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
         }
         //转换成以，分割的字符串
         ids = Joiner.on(",").join(selectedGoodId);
-        Log.i(TAG,selectedGoodId+"");
         RestClient.Builder()
                 .url(URL.CART_DELETE_GOODS)
                 .params("appToken",UserMessage.USER_TOKEN)
@@ -211,15 +243,20 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
                             List<GoodBean> temp=new ArrayList<>();//存放要删除的集合
                             for (int i = 0; i < mGoodsList.size(); i++) {
                                 if (mGoodsList.get(i).getChecked()==1){
-                                    Log.i(TAG,"remove:"+i);
                                     temp.add(mGoodsList.get(i));
                                    // mGoodsList.remove(i);//集合中移除
                                   //  mCartAdapter.notifyItemRemoved(i);//适配器中移除
+                                    BigDecimal bigDecimal=mGoodsList.get(i).getProductPrice().
+                                            multiply(new BigDecimal(mGoodsList.get(i).getQuantity()));
+                                    totalPrice=totalPrice.subtract(bigDecimal);
                                 }
                             }
                             mGoodsList.removeAll(temp);//一次性从集合移除
                             mCartAdapter.notifyDataSetChanged();//通知改变
+                            mCartMoney.setText("￥"+totalPrice);
                             checkItemCount();
+                            mTotalSize=mTotalSize-temp.size();//删除时改变总个数
+                            mSelectCount=0;//如果删除勾选的，则说明不存在勾选的，设置为0
                         }else {
                             Latte.showToast("购物车为空或者没有选择要删除的物品");
                         }
@@ -251,12 +288,24 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
                             mCartSelectAllLay.setTag(0);
                             mCartAdapter.setSelectedAll(false);
                             checkItemCount();
+                            totalPrice=new BigDecimal(0);//把计算价格的变量设置为0
+                            mCartMoney.setText("￥"+0.00);//把价格设置为0
+                            mTotalSize=0;//清空总数设置为0
+                            mSelectCount=0;//如果清空，则说明不存在勾选的，设置为0
                         }else {
                             Latte.showToast("购物车为空或者没有选择要删除的物品");
                         }
                     }
                 })
                 .build().get();
+    }
+
+    /**
+     * 结算
+     */
+    @OnClick(R2.id.cart_delegate_count_money)
+    public void onClickBalanceAccounts(){
+        Latte.showToast(totalPrice+"");
     }
 
     /**
@@ -276,7 +325,45 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
         }
     }
 
+    /**
+     * 设置合计总价
+     * @param singleTotalPrice
+     * @param plusOrMinus
+     */
+    @Override
+    public void setPrice(BigDecimal singleTotalPrice,Integer plusOrMinus) {
+        if (plusOrMinus==0){
+            totalPrice=totalPrice.add(singleTotalPrice);
+            mCartMoney.setText("￥"+totalPrice);
+        }else if (plusOrMinus==1){
+            totalPrice=totalPrice.subtract(singleTotalPrice);
+            mCartMoney.setText("￥"+totalPrice);
+        }
+    }
 
+    @Override
+    public void setSelectCount(Integer plusOrMinus) {
+        if (plusOrMinus==0){
+            mSelectCount++;
+        }else if (plusOrMinus==1){
+            mSelectCount--;
+        }
+        //如果等于总的数量就设置为全选
+        if (mSelectCount==mTotalSize){
+            mCartSelectAll.setTextColor(ContextCompat.getColor(_mActivity,R.color.title_color));
+            mCartSelectAllLay.setTag(1);
+            mCartAdapter.setSelectedAll(true);
+        }else {//非全选
+            mCartSelectAll.setTextColor(ContextCompat.getColor(_mActivity,R.color.dark_gray));
+            mCartSelectAllLay.setTag(0);
+            mCartAdapter.setSelectedAll(false);
+        }
+    }
+
+
+    /**
+     * 检查购物车内是否有商品
+     */
     private void checkItemCount(){
         int count=mCartAdapter.getItemCount();
         if (count==0){
@@ -300,6 +387,5 @@ public class CartDelegate extends BottomItemDelegate implements IChanged{
             mCartList.setVisibility(View.VISIBLE);
         }
     }
-
 
 }

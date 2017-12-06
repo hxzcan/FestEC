@@ -128,4 +128,18 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
        getSupportDelegate().showHideFragment(ITEM_DELEGATE.get(tag),ITEM_DELEGATE.get(mCurrentDelegate));
         mCurrentDelegate=tag;
     }
+
+    /**
+     * 把没有推掉的栈都退出 退出 app
+     * @return
+     */
+    @Override
+    public boolean onBackPressedSupport() {
+        if (getChildFragmentManager().getBackStackEntryCount()>1){
+            popChild();
+        }else {
+            _mActivity.finish();
+        }
+        return true;
+    }
 }
